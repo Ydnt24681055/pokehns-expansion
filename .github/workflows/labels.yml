@@ -1,0 +1,26 @@
+name: Labels
+
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  label:
+    if: ${{ github.actor != 'allcontributors[bot]' && github.event.review.state == 'approved' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: check labels
+        uses: mheap/github-action-required-labels@v5
+        with:
+          mode: minimum
+          count: 1
+          labels: |
+            dev: merge into main
+            category: battle mechanic
+            category: tests
+            category: overworld
+            type: bug-fix
+            type: documentation
+            type: hns-feature
